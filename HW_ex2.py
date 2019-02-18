@@ -5,6 +5,7 @@ from pprint import pprint
 #2x2    f t
 #    f |_|_|
 #	 t | | |
+print()
 
 tr_model = np.array([[0.7,0.3],
 					 [0.3,0.7]])
@@ -123,7 +124,7 @@ def forward_backward_imp(evidence):
 
 
 #AIMA example check
-# ev = np.array([1,1,1,1])
+# ev = np.array([1,1,1,0,0,1,1,0,1,0])
 # filtered = forward(ev)
 # backward_msg = backward(ev)
 # smoothed = forward_backward(ev)
