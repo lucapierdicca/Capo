@@ -2,18 +2,22 @@ import numpy as np
 from pprint import pprint
 #=========== Direct Sampling ===========
 
+#models are arranged as follows [t-1,t]
 #2x2    f t
 #    f |_|_|
 #	 t | | |
-print()
 
+
+#transition model
 tr_model = np.array([[0.7,0.3],
 					 [0.3,0.7]])
+#emission model
 em_model = np.array([[0.8,0.2],
 					 [0.1,0.9]])
+#P(R0) - day 0
 R_0 = np.array([0.5,0.5])
 
-
+#generating sequences of states and observations through direct sampling
 sequences = np.zeros((40*2,20),dtype=int)
 for i in range(0,sequences.shape[0],2):
 	for j in range(sequences.shape[1]):
@@ -25,8 +29,12 @@ for i in range(0,sequences.shape[0],2):
 		sequences[i+1,j] = np.random.binomial(1,em_model[sequences[i,j],1])
 
 
+
+
+
 #============ Forward-Backward =============
 
+#emission model matrix TRUE and FALSE
 em_model_t = np.diag(np.diag(em_model@np.array([[0,0],[1,1]])))
 em_model_f = np.diag(np.diag(em_model@np.array([[1,1],[0,0]])))
 
@@ -139,7 +147,8 @@ def forward_backward_imp(evidence):
 
 #============= FILTERING vs. SMOOTHING ==============
 
-
+#testing the filtering vs. smoothing on all the sequences
+#it is possible to appreciate some improvements in the prediction of the state in smoothing vs.filtering
 for i in range(0,sequences.shape[0],2):
 	test = sequences[i,:]
 	evidence = sequences[i+1,:]
@@ -152,6 +161,3 @@ for i in range(0,sequences.shape[0],2):
 	print('State sequence: ',test)
 	print(results)
 	print()
-
-
-
